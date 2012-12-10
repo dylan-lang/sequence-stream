@@ -83,11 +83,11 @@ define test read-to-test ()
    let exp = copy-sequence($text-contents, start: 7);
    check-equal("EOS value check", exp, val);
    check-false("not found flag check", found?);
-   
+
    let (val, found?) = read-to(stream, 'x', on-end-of-stream: "missing");
    check-equal("at EOS value check", "missing", val);
    check-false("not found at EOS flag check", found?);
-   
+
    let stream = make(<sequence-stream>, contents: "$");
    let (val, found?) = read-to(stream, '$');
    check-equal("empty data check", "", val);
@@ -156,7 +156,7 @@ define test read-line-test ()
    let (val, eol?) = stream.read-line;
    check-equal("EOS data check", "Prepare to die!", val);
    check-false("EOS EOL flag check", eol?);
-   
+
    check-condition("EOS condition check", <end-of-stream-error>,
                    stream.read-line);
 end test;

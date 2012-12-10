@@ -1,5 +1,5 @@
 module: dylan-user
-author: Dustin Voss 
+author: Dustin Voss
 
 define library sequence-stream-test
    use common-dylan;

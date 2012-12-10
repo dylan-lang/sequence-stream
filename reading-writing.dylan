@@ -82,14 +82,14 @@ define method ext-read-into!
          forward-iteration-protocol(coll);
 
    // Skip to where we want to start inserting elements from the stream.
-   let coll-start = 
+   let coll-start =
          for (coll-idx from 0 below start,
               coll-iter = coll-start then coll-next(coll, coll-iter),
               until: coll-done?(coll, coll-iter, coll-limit))
          finally
             coll-iter
          end for;
-   
+
    // Start inserting elements from the stream and return results.
    let total-read = 0;
    block ()
@@ -173,7 +173,7 @@ define method ext-read-line
       let end-idx = found-idx | next-idx;
       let elements =
             copy-sequence(stream.stream-storage, start: start-idx, end: end-idx);
-      
+
       // Skip over LF of CRLF.
       when (found? & peek(stream, on-end-of-stream: #f) = '\n')
          read-element(stream);
@@ -207,7 +207,7 @@ define method ext-read-line-into!
          // that doesn't guarantee that string itself is altered.
          for (i from start, c in line)
             string[i] := c;
-         end for;                            
+         end for;
 
          values(string, found?);
 
@@ -247,7 +247,7 @@ define method ext-read-text-into!
 => (count-or-eof :: <object>)
    check-stream-open(stream);
    check-stream-readable(stream);
-   
+
    let total-read = 0;
    block ()
       for (i from start below min(start + n, string.size))
@@ -295,7 +295,7 @@ define method ext-write-element
    end if;
    adjust-stream-position(stream, +1, grow: #f);
 end method;
-   
+
 
 define method ext-write
    (stream :: <sequence-stream>, coll :: <sequence>,
@@ -310,17 +310,17 @@ define method ext-write
          forward-iteration-protocol(coll);
 
    // Skip to where we want to start taking elements from the collection.
-   let coll-start = 
+   let coll-start =
          for (coll-idx from 0 below coll-start-idx,
               coll-iter = coll-start then coll-next(coll, coll-iter),
               until: coll-done?(coll, coll-iter, coll-limit))
          finally
             coll-iter
          end for;
-   
+
    // Take elements from the collection and put them in the stream.
    let stream-start-idx = stream.stream-position + stream.stream-start;
-   let (coll-start, coll-remainder-start-idx) = 
+   let (coll-start, coll-remainder-start-idx) =
          for (stream-idx from stream-start-idx below stream.stream-end,
               coll-idx from coll-start-idx below coll-end-idx,
               coll-iter = coll-start then coll-next(coll, coll-iter),
@@ -331,7 +331,7 @@ define method ext-write
          finally
             values(coll-iter, coll-idx);
          end for;
-   
+
    // Deal with remainder that needs to be inserted. Check element types and
    // collect up a sequence to pass to 'replace-stream-elements'.
    let coll-remainder-size = coll-end-idx - coll-remainder-start-idx;
@@ -346,7 +346,7 @@ define method ext-write
       end for;
       replace-stream-elements(stream, coll-remainder);
    end if;
-   
+
    // Reset stream position.
    adjust-stream-position(stream, coll-end-idx - coll-start-idx, grow: #f);
 end method;
@@ -364,7 +364,7 @@ define method ext-write
    if (string-span < string.size)
       string := copy-sequence(string, start: string-start-idx, end: string-end-idx);
    end if;
-   
+
    let stream-start-idx = stream.stream-position + stream.stream-start;
    let stream-end-idx = stream-start-idx + string-span;
    replace-stream-elements(stream, string, start: stream-start-idx, end: stream-end-idx);

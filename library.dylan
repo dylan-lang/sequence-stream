@@ -48,6 +48,6 @@ define module sequence-stream
            <stream-closed-error>, <end-of-stream-error>, <stream-not-readable>,
            <stream-not-writable>, <incomplete-read-error>, <byte-character>,
            outer-stream };
-   
+
    export <sequence-stream>, <string-stream>, <byte-string-stream>;
 end module;

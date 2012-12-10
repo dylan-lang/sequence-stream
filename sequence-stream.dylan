@@ -17,7 +17,7 @@ define open primary class <sequence-stream> (<basic-stream>, <positionable-strea
    slot stream-unread-from :: false-or(<integer>) = #f;
    constant slot stream-direction :: one-of(#"input", #"output", #"input-output"),
          init-keyword: direction:;
-   
+
    // Manual offset
    constant slot stream-position-offset :: <integer>, init-keyword: position-offset:;
 
@@ -76,7 +76,7 @@ define method initialize
    next-method();
    stream.stream-storage :=
          if (direction = #"input")
-            if (instance?(contents, <vector>) & 
+            if (instance?(contents, <vector>) &
                 ~instance?(contents, <stretchy-vector>))
                contents
             else
@@ -233,7 +233,7 @@ define method adjust-stream-position
          grow: grow? :: <boolean> = #t)
 => (new-position :: <integer>)
    // Compute position.
-   let base-pos :: <integer> = 
+   let base-pos :: <integer> =
          select (from)
             #"current" => stream.stream-position;
             #"start" => 0;
@@ -251,7 +251,7 @@ define method adjust-stream-position
          replace-stream-elements(stream, grow-data);
       end if;
    end if;
-   
+
    // Set position and return.
    stream.stream-unread-from := #f;
    stream.stream-position := max(0, new-pos);
@@ -323,13 +323,13 @@ define method read-through
             finally
                idx
             end for;
-      
+
       // Compute new stream position.
       if (end-idx > start-idx)
          stream.stream-position := end-idx - stream.stream-start;
          stream.stream-unread-from := stream.stream-position;
       end if;
-      
+
       // Copy and return read elements.
       if (found-idx & ~keep-term)
          end-idx := max(start-idx, end-idx - 1)
@@ -357,7 +357,7 @@ define method skip-through
 => (found-idx :: false-or(<integer>), next-idx :: <integer>)
    let start-idx = stream.stream-position + stream.stream-start;
    let found-idx = #f;
-   let end-idx = 
+   let end-idx =
          for (idx from start-idx below stream.stream-end, until: found-idx)
             if (test(stream.stream-storage[idx], to-elem))
                found-idx := idx
@@ -365,7 +365,7 @@ define method skip-through
          finally
             idx
          end for;
-   
+
    if (end-idx > start-idx)
       stream.stream-position := end-idx - stream.stream-start;
       stream.stream-unread-from := stream.stream-position;
@@ -381,16 +381,16 @@ define method replace-stream-elements
 => ()
    let start-idx = min(start-idx, stream.stream-end);
    let end-idx = min(end-idx, stream.stream-end);
-   
+
    // Trim down size of sequence to make any later resizing faster.
 
    when (stream.stream-end < stream.stream-storage.size)
-      stream.stream-storage := 
+      stream.stream-storage :=
             replace-subsequence!(stream.stream-storage, #[], start: stream.stream-end);
    end when;
 
    when (stream.stream-start > 0)
-      stream.stream-storage := 
+      stream.stream-storage :=
             replace-subsequence!(stream.stream-storage, #[], end: stream.stream-end);
       let adjustment = stream.stream-start;
       stream.stream-position := stream.stream-position - adjustment;
@@ -398,7 +398,7 @@ define method replace-stream-elements
       start-idx := start-idx - adjustment;
       end-idx := end-idx - adjustment;
    end when;
-   
+
    // Replace and resize if necessary.
 
    stream.stream-storage :=
@@ -419,7 +419,7 @@ define method make-storage
 
    let (iter-start, iter-limit, iter-next, iter-done?, iter-key, iter-elem) =
          forward-iteration-protocol(original);
-   
+
    // Skip to what we want from original sequence.
    let iter-start-wanted =
          for (skip-count from 0 below start-pos,
@@ -428,7 +428,7 @@ define method make-storage
          finally
             state
          end for;
-   
+
    // Copy those elements into storage.
    for (storage-index from 0 below storage.size,
         state = iter-start-wanted then iter-next(original, state),
