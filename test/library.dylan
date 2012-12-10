@@ -1,7 +1,7 @@
 module: dylan-user
 author: Dustin Voss 
 
-define library sequence-stream-tester
+define library sequence-stream-test
    use common-dylan;
    use io;
    use testworks;
@@ -9,7 +9,7 @@ define library sequence-stream-tester
    use sequence-stream;
 end library;
 
-define module sequence-stream-tester
+define module sequence-stream-test
    use common-dylan;
    use format-out;
    use streams, exclude:
