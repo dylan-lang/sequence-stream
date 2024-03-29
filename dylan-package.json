@@ -1,0 +1,10 @@
+{
+    "name": "sequence-stream",
+    "description": "Streams that read from and write to sequences",
+    "version": "0.1.1",
+    "url": "https://github.com/dylan-lang/sequence-stream",
+    "dependencies": [],
+    "dev-dependencies": [
+        "testworks"
+    ]
+}
