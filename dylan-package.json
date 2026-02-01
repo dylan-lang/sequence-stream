@@ -5,6 +5,7 @@
     "url": "https://github.com/dylan-lang/sequence-stream",
     "dependencies": [],
     "dev-dependencies": [
+        "sphinx-extensions",
         "testworks"
     ]
 }
