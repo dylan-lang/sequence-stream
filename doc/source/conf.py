@@ -17,7 +17,6 @@ release = '0.1.0'
 import sys, os
 sys.path.insert(0, os.path.abspath('../../_packages/sphinx-extensions/current/src/sphinxcontrib'))
 
-import dylan.themes as dylan_themes
 
 extensions = [
     'dylan.domain',
