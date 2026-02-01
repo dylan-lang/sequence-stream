@@ -1,0 +1,35 @@
+name: build-and-test
+
+on:
+  push:
+    # all branches
+  pull_request:
+    # all branches
+
+  # This enables the Run Workflow button on the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Opendylan
+        uses: dylan-lang/install-opendylan@v3
+
+      - name: Download dependencies
+        run: deft update
+
+      - name: Build tests
+        run: deft build sequence-stream-test
+
+      - name: Run tests
+        run: _build/bin/sequence-stream-test --progress none --report surefire > _build/TEST-sequence-stream.xml
+
+      - name: Publish Test Report
+        if: success() || failure()
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: '**/_build/TEST-*.xml'
